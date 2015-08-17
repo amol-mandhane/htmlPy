@@ -150,16 +150,3 @@ class BaseGUI(object):
         :py:meth:`htmlPy.BaseGUI.stop` is connected to some signal.
         """
         self.app.exec_()
-
-    def get_html(self):
-        """ Returns the HTML currently rendered in the window.
-
-        This function will return the HTML which is being displayed in the
-        ``web_app``. This is not asynchronous. The URL set with htmlPy will not
-        load until the window is in display.
-
-        Returns:
-            unicode: The HTML being displayed in the ``web_app``.
-        """
-
-        return self.web_app.page().mainFrame().toHtml()

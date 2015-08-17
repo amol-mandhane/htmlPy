@@ -26,7 +26,7 @@ class TestWebApp(unittest.TestCase, BaseGUIBasics,
         self.app.web_app.loadFinished.connect(self.app.stop)
         self.app.url = self.url
         self.app.execute()
-        assert u"Example Domain" in self.app.get_html()
+        assert u"Example Domain" in self.app.html
 
 
 class TestWebAppMaximizedGeometry(unittest.TestCase, BaseGUIMaximizedGeometry):

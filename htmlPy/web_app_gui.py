@@ -54,6 +54,8 @@ class WebAppGUI(BaseGUI):
         url (unicode property): The URL currently being displayed in
             ``window``. Set the property to a URL unicode string to change the
             URL being displayed.
+        html (unicode property): The HTML currently rendered in the
+            ``web_app``. This is a readonly property.
         maximized (bool property): A boolean which describes whether the
             ``window`` is maximized or not. Can be set to ``True`` to maximize
             the window and set to ``False`` to restore.
@@ -92,3 +94,14 @@ class WebAppGUI(BaseGUI):
         unicode,
         lambda instance: instance.web_app.url().toString(),
         lambda instance, link: instance.web_app.setUrl(link))
+
+    @property
+    def html(self):
+        """ unicode: The HTML currently rendered in the window.
+
+        This property will return the HTML which is being displayed in the
+        ``web_app``. This is not asynchronous. The URL set with htmlPy will not
+        load until the window is in display.
+        """
+
+        return self.web_app.page().mainFrame().toHtml()
