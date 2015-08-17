@@ -132,5 +132,34 @@ class BaseGUI(object):
         self.window.show()
         sys.exit(self.app.exec_())
 
+    def stop(self):
+        """ Stops the application. Use only to bind with signals.
+
+        The Qt application does not have to be manually stopped. Also, after
+        starting the application is stuck in the execution loop and will not go
+        further until it is stopped. Calling this function manually is
+        redundant. This function exits only to be binded with QSignals to stop
+        the application when that signal is emitted.
+        """
+        self.app.quit()
+
+    def execute(self):
+        """ Executes the application without ending the process on its end.
+
+        DO NOT execute this process directly. Use only when
+        :py:mod:`htmlPy.BaseGUI.stop` is connected to some signal.
+        """
+        self.app.exec_()
+
     def get_html(self):
+        """ Returns the HTML currently rendered in the window.
+
+        This function will return the HTML which is being displayed in the
+        ``web_app``. This is not asynchronous. The URL set with htmlPy will not
+        load until the window is in display.
+
+        Returns:
+            unicode: The HTML being displayed in the ``web_app``.
+        """
+
         return self.web_app.page().mainFrame().toHtml()

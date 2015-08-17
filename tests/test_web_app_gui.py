@@ -23,9 +23,9 @@ class TestWebApp(unittest.TestCase, BaseGUIBasics,
         assert self.app.url == self.url
 
     def test_url_loading(self):
-        self.app.web_app.loadFinished.connect(self.app.app.quit)
+        self.app.web_app.loadFinished.connect(self.app.stop)
         self.app.url = self.url
-        self.app.app.exec_()
+        self.app.execute()
         assert u"Example Domain" in self.app.get_html()
 
 
