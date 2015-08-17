@@ -139,3 +139,76 @@ class CustomAssignmentProperty(object):
         """
 
         raise AttributeError("The attribute can't be deleted.")
+
+
+class LiveProperty(object):
+    """ Descriptor for some specific properties of ``BaseGUI``
+
+    There are many properties of :py:mod:`htmlPy.BaseGUI` objects which have
+    following things in common. They are some attributes of some of the Qt
+    objects associated with the GUI. These can be change with or without
+    htmlPy APIs. Thus, their values cannot be stored for future retrieval.
+    The values are retrieved directly from the Qt objects. Thus, they require
+    a retrieval and an assignment function.
+
+    Args:
+        datatype (type): Type of the value of this property
+        get_function (function): The function that has to be executed for
+            getting the value of this property.
+        set_function (function): The function that has to be executed for
+            setting the value of this property.
+
+    Attributes:
+        type (type): Type of the value of this property
+        get_function (function): The function that has to be executed for
+            getting the value of this property.
+        set_function (function): The function that has to be executed for
+            setting the value of this property.
+    """
+
+    def __init__(self, datatype, get_function, set_function):
+        """ Constructor for ``LiveProperty`` class """
+        self.type = datatype
+        self.get_function = get_function
+        self.set_function = set_function
+
+    def __get__(self, instance, cls):
+        """ Getter for ``LiveProperty`` descriptor
+
+        Returns the value returned by ``get_function``.
+
+        Returns:
+            self.type: Returns the value of the property
+
+        Raises:
+            Exception: Any error raised by ``self.get_function``
+        """
+        return self.get_function(instance)
+
+    def __set__(self, instance, value):
+        """ Setter for ``LiveProperty`` descriptor
+
+        Executes ``self.set_function`` and sets the value to the Qt objects as
+            instructed by ``self.set_function``.
+
+        Raises:
+            TypeError: If value is not of self.type
+            Exception: Any error raised by ``self.set_function``
+        """
+
+        if not isinstance(value, self.type):
+            raise TypeError("Assignment type mismatch. " +
+                            "Value should be of type {}.".format(
+                                self.type.__name__))
+        self.set_function(instance, value)
+
+    def __delete__(self, instance):
+        """ Deleter for ``CustomAssignmentProperty`` descriptor.
+
+        The deleter raises error as property should not be deleted.
+
+        Raises:
+            AttributeError: The property should not be deleted.
+        """
+
+        raise AttributeError("The attribute can't be deleted.")

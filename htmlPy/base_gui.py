@@ -34,7 +34,7 @@ class BaseGUI(object):
         y_pos (int property): The Y-coordinate for top-left corner of the
             ``window`` in pixels. Set the value of this property in pixels to
             move the ``window`` vertically.
-        title (str property): The title of the ``window``. Set the value of
+        title (unicode property): The title of the ``window``. Set the value of
             this property to change the title.
         plugins (bool property): A boolean flag which indicates whether plugins
             like flash are enabled or not. Set the value to ``True`` or
@@ -50,7 +50,7 @@ class BaseGUI(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def __init__(self, title="Application", width=800, height=600,
+    def __init__(self, title=u"Application", width=800, height=600,
                  x_pos=10, y_pos=10, maximized=False,
                  plugins=False, developer_mode=False,
                  allow_overwrite=False):
@@ -75,10 +75,6 @@ class BaseGUI(object):
         self.__height = height
         self.__x = x_pos
         self.__y = y_pos
-
-        self.__title = None
-        self.__plugins = None
-        self.__developer_mode = None
 
         self.title = title
         self.plugins = plugins
@@ -127,17 +123,22 @@ class BaseGUI(object):
     x_pos = descriptors.IntegralGeometricProperty("x")
     y_pos = descriptors.IntegralGeometricProperty("y")
 
-    title = descriptors.CustomAssignmentProperty(
-        "title", str,
+    title = descriptors.LiveProperty(
+        unicode,
+        lambda instance: instance.window.windowTitle(),
         lambda instance, value: instance.window.setWindowTitle(value))
 
-    plugins = descriptors.CustomAssignmentProperty(
-        "plugins", bool,
+    plugins = descriptors.LiveProperty(
+        bool,
+        lambda instance: instance.web_app.settings().testAttribute(
+            QtWebKit.QWebSettings.PluginsEnabled),
         lambda instance, value: instance.web_app.settings().setAttribute(
             QtWebKit.QWebSettings.PluginsEnabled, value))
 
-    developer_mode = descriptors.CustomAssignmentProperty(
-        "developer_mode", bool,
+    developer_mode = descriptors.LiveProperty(
+        bool,
+        lambda instance: instance.web_app.settings().testAttribute(
+            QtWebKit.QWebSettings.DeveloperExtrasEnabled),
         lambda instance, value: instance.web_app.settings().setAttribute(
             QtWebKit.QWebSettings.DeveloperExtrasEnabled, value))
 

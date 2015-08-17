@@ -1,4 +1,3 @@
-from PySide import QtCore
 from base_gui import BaseGUI
 import descriptors
 
@@ -11,14 +10,14 @@ class WebAppGUI(BaseGUI):
     can be remote or local. This can be used for quick desktop deployment of
     existing websites. However, for a standalone application, it is recommended
     to used :py:mod:`htmlPy.AppGUI` class.
-    
-    Note: Arguments and Attributes of this class come from the parent class 
+
+    Note: Arguments and Attributes of this class come from the parent class
         :py:mod:`htmlPy.BaseGUI`. Please refer to it's documentation for more
         details.
 
     Args:
-        title (Optional[str]): The title of the ``window``. Defaults to
-            "Application".
+        title (Optional[unicode]): The title of the ``window``. Defaults to
+            u"Application".
         width (Optional[int]): Width of the ``window`` in pixels. Defaults to
             800 px. Redundant if ``maximized`` is ``True``.
         height (Optional[int]): Height of the ``window`` in pixels. Defaults to
@@ -52,8 +51,9 @@ class WebAppGUI(BaseGUI):
             ``app``.
         web_app (PySide.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
-        url (str property): The URL currently being displayed in ``window``.
-            Set the property to a URL string to change the URL being displayed.
+        url (unicode property): The URL currently being displayed in
+            ``window``. Set the property to a URL unicode string to change the
+            URL being displayed.
         maximized (bool property): A boolean which describes whether the
             app is maximized or not. Can be set to ``True`` to maximize the
             app and set to ``False`` to restore.
@@ -67,7 +67,7 @@ class WebAppGUI(BaseGUI):
         y_pos (int property): The Y-coordinate for top-left corner of the
             ``window`` in pixels. Set the value of this property in pixels to
             move the ``window`` vertically.
-        title (str property): The title of the ``window``. Set the value of
+        title (unicode property): The title of the ``window``. Set the value of
             this property to change the title.
         plugins (bool property): A boolean flag which indicates whether plugins
             like flash are enabled or not. Set the value to ``True`` or
@@ -80,15 +80,15 @@ class WebAppGUI(BaseGUI):
 
     Raises:
         RuntimeError: If ``PySide.QtGui.QApplication`` is already instantiated
-        and ``allow_overwrite`` is ``False``.
+            and ``allow_overwrite`` is ``False``.
 
     """
 
     def __init__(self, *args, **kwargs):
         """ Constructor for :py:mod:`htmlPy.WebAppGUI` class """
         super(WebAppGUI, self).__init__(*args, **kwargs)
-        self.__link = None
 
-    url = descriptors.CustomAssignmentProperty(
-        "link", str,
-        lambda instance, link: instance.web_app.load(QtCore.QUrl(link)))
+    url = descriptors.LiveProperty(
+        unicode,
+        lambda instance: instance.web_app.url().toString(),
+        lambda instance, link: instance.web_app.setUrl(link))
