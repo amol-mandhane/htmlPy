@@ -55,8 +55,8 @@ class WebAppGUI(BaseGUI):
             ``window``. Set the property to a URL unicode string to change the
             URL being displayed.
         maximized (bool property): A boolean which describes whether the
-            app is maximized or not. Can be set to ``True`` to maximize the
-            app and set to ``False`` to restore.
+            ``window`` is maximized or not. Can be set to ``True`` to maximize
+            the window and set to ``False`` to restore.
         width (int property): Width of the ``window`` in pixels. Set the value
             of this property in pixels to change the width.
         height (int property): Height of the ``window`` in pixels. Set the

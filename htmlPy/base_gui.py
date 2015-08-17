@@ -22,8 +22,8 @@ class BaseGUI(object):
         web_app (PySide.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
         maximized (bool property): A boolean which describes whether the
-            app is maximized or not. Can be set to ``True`` to maximize the
-            app and set to ``False`` to restore.
+            ``window`` is maximized or not. Can be set to ``True`` to maximize
+            the window and set to ``False`` to restore.
         width (int property): Width of the ``window`` in pixels. Set the value
             of this property in pixels to change the width.
         height (int property): Height of the ``window`` in pixels. Set the
@@ -70,11 +70,10 @@ class BaseGUI(object):
         self.web_app.settings().setAttribute(
             QtWebKit.QWebSettings.LocalContentCanAccessRemoteUrls, True)
 
-        self.__maximized = None
-        self.__width = width
-        self.__height = height
-        self.__x = x_pos
-        self.__y = y_pos
+        self._width = width
+        self._height = height
+        self._x = x_pos
+        self._y = y_pos
 
         self.title = title
         self.plugins = plugins
@@ -89,39 +88,20 @@ class BaseGUI(object):
         If the ``window`` is not maximized, this function resizes it to the
         stored dimensions, moves it to the stored location.
         """
-        if not self.__maximized:
-            self.window.resize(self.__width, self.__height)
-            self.window.move(self.__x, self.__y)
-
-    @property
-    def maximized(self):
-        """bool: A flag which indicates whether the ``window`` is maximized or
-        not.
-        """
-        self.__maximized = self.window.isMaximized()
-        return self.__maximized
-
-    @maximized.setter
-    def maximized(self, value):
-        """ Maximizes or restores the ``window`` based on the value provided.
-
-        Raises:
-            TypeError: if the value provided is not boolean.
-        """
-        if not isinstance(value, bool):
-            raise TypeError("Assignment type mismatch. " +
-                            "maximized should be bool.")
-        self.__maximized = value
-        if self.__maximized:
-            self.window.showMaximized()
-        else:
-            self.window.showNormal()
-            self.auto_resize()
+        if not self.maximized:
+            self.window.resize(self._width, self._height)
+            self.window.move(self._x, self._y)
 
     width = descriptors.IntegralGeometricProperty("width")
     height = descriptors.IntegralGeometricProperty("height")
     x_pos = descriptors.IntegralGeometricProperty("x")
     y_pos = descriptors.IntegralGeometricProperty("y")
+
+    maximized = descriptors.LiveProperty(
+        bool,
+        lambda instance: instance.window.isMaximized(),
+        lambda instance, value: instance.window.showMaximized() if value else
+        instance.window.showNormal() and instance.auto_resize())
 
     title = descriptors.LiveProperty(
         unicode,
@@ -151,3 +131,6 @@ class BaseGUI(object):
         """
         self.window.show()
         sys.exit(self.app.exec_())
+
+    def get_html(self):
+        return self.web_app.page().mainFrame().toHtml()

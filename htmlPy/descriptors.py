@@ -34,7 +34,7 @@ class IntegralGeometricProperty(object):
             int: Value of the property of instance.
         """
         real_value = getattr(instance.window, self.name)()
-        setattr(instance, "__" + self.name, real_value)
+        setattr(instance, "_" + self.name, real_value)
         return real_value
 
     def __set__(self, instance, value):
@@ -54,7 +54,7 @@ class IntegralGeometricProperty(object):
                                 self.name.title()))
         if value < 0:
             raise ValueError(self.name.title() + " should be >= 0.")
-        setattr(instance, "__" + self.name, value)
+        setattr(instance, "_" + self.name, value)
         instance.auto_resize()
 
     def __delete__(self, instance):
@@ -80,14 +80,14 @@ class CustomAssignmentProperty(object):
 
     Args:
         name (str): Name of the hidden class attribute to store value in
-            without the leading "__"
+            without the leading "_"
         datatype (type): Type of the value of this property
         function (function): The function that has to be executed when
             assigning the value of this property.
 
     Attributes:
         name (str): Name of the hidden class attribute to store value in
-            without the leading "__"
+            without the leading "_"
         type (type): Type of the value of this property
         assignment_function (function): The function that has to be executed
             when assigning the value of this property. If this function fails,
@@ -108,7 +108,7 @@ class CustomAssignmentProperty(object):
         Returns:
             self.type: Returns the value of the property
         """
-        return getattr(instance, "__" + self.name)
+        return getattr(instance, "_" + self.name)
 
     def __set__(self, instance, value):
         """ Setter for ``CustomAssignmentProperty`` descriptor
@@ -127,7 +127,7 @@ class CustomAssignmentProperty(object):
                             "{} should be of type {}.".format(
                                 self.name.title(), self.type.__name__))
         self.assignment_function(instance, value)
-        setattr(instance, "__" + self.name, value)
+        setattr(instance, "_" + self.name, value)
 
     def __delete__(self, instance):
         """ Deleter for ``CustomAssignmentProperty`` descriptor.
