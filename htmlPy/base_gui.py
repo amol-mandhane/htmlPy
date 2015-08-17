@@ -8,8 +8,8 @@ class BaseGUI(object):
     """ Abstract GUI class for creating apps using PySide's Qt and HTML.
 
     This class shouldn't be used directly. It serves as a parent to other
-    GUI classes. Use :py:mod:`htmlPy.AppGUI` and
-    :py:mod:`htmlPy.WebAppGUI` for developing applications.
+    GUI classes. Use :py:class:`htmlPy.AppGUI` and
+    :py:class:`htmlPy.WebAppGUI` for developing applications.
 
     Args:
         No args: This is an abstract base class. It must not be instantiated.
@@ -54,7 +54,7 @@ class BaseGUI(object):
                  x_pos=10, y_pos=10, maximized=False,
                  plugins=False, developer_mode=False,
                  allow_overwrite=False):
-        """ An abstract constructor for the :py:mod:`htmlPy.BaseGUI` class """
+        """ Abstract constructor for the :py:class:`htmlPy.BaseGUI` class """
 
         app = QtGui.QApplication.instance()
         if app is not None and not allow_overwrite:
@@ -147,7 +147,7 @@ class BaseGUI(object):
         """ Executes the application without ending the process on its end.
 
         DO NOT execute this process directly. Use only when
-        :py:mod:`htmlPy.BaseGUI.stop` is connected to some signal.
+        :py:meth:`htmlPy.BaseGUI.stop` is connected to some signal.
         """
         self.app.exec_()
 

@@ -9,10 +9,10 @@ class WebAppGUI(BaseGUI):
     QtWebKit based browser running on user side. The server for the web app
     can be remote or local. This can be used for quick desktop deployment of
     existing websites. However, for a standalone application, it is recommended
-    to used :py:mod:`htmlPy.AppGUI` class.
+    to used :py:class:`htmlPy.AppGUI` class.
 
     Note: Arguments and Attributes of this class come from the parent class
-        :py:mod:`htmlPy.BaseGUI`. Please refer to it's documentation for more
+        :py:class:`htmlPy.BaseGUI`. Please refer to it's documentation for more
         details.
 
     Args:
@@ -85,7 +85,7 @@ class WebAppGUI(BaseGUI):
     """
 
     def __init__(self, *args, **kwargs):
-        """ Constructor for :py:mod:`htmlPy.WebAppGUI` class """
+        """ Constructor for :py:class:`htmlPy.WebAppGUI` class """
         super(WebAppGUI, self).__init__(*args, **kwargs)
 
     url = descriptors.LiveProperty(

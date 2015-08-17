@@ -3,7 +3,7 @@ class IntegralGeometricProperty(object):
 
     This descriptor should be used for width, height, X and Y attributes of
     ``QtMainWindow``. This should define properties of class
-    :py:mod:`htmlPy.BaseGUI` and the classes which inherit it. This retrieves
+    :py:class:`htmlPy.BaseGUI` and the classes which inherit it. This retrieves
     the real values of the dimensions from the ``QtMainWindow`` when accessed
     and changes the real value when assigned. The values assigned should be of
     the type ``int``. Attributes defined by this descriptor cannot be deleted.
@@ -70,9 +70,9 @@ class IntegralGeometricProperty(object):
 
 
 class CustomAssignmentProperty(object):
-    """ Descriptor for some specific properties of ``BaseGUI``
+    """ Descriptor for some specific properties of :py:class:`htmlPy.BaseGUI`
 
-    There are many properties of :py:mod:`htmlPy.BaseGUI` objects which have
+    There are many properties of :py:class:`htmlPy.BaseGUI` objects which have
     following things in common. Their values are stored in a hidden class
     attribute which is returned when the properties are retrieved. And a small
     code has to be executed when setting their values. This descriptor is used
@@ -144,7 +144,7 @@ class CustomAssignmentProperty(object):
 class LiveProperty(object):
     """ Descriptor for some specific properties of ``BaseGUI``
 
-    There are many properties of :py:mod:`htmlPy.BaseGUI` objects which have
+    There are many properties of :py:class:`htmlPy.BaseGUI` objects which have
     following things in common. They are some attributes of some of the Qt
     objects associated with the GUI. These can be change with or without
     htmlPy APIs. Thus, their values cannot be stored for future retrieval.
