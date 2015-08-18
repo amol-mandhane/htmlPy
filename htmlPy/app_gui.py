@@ -1,15 +1,15 @@
 from base_gui import BaseGUI
 import descriptors
+import os
+import jinja2
 
 
-class WebAppGUI(BaseGUI):
-    """ GUI class for creating web apps using PySide's Qt.
+class AppGUI(BaseGUI):
+    """ GUI class for creating apps using PySide's QtWebkit.
 
-    The class WebAppGUI can be used to create web based applications in a
-    QtWebKit based browser running on user side. The server for the web app
-    can be remote or local. This can be used for quick desktop deployment of
-    existing websites. However, for a standalone application, it is recommended
-    to used :py:class:`htmlPy.AppGUI` class.
+    The class AppGUI can be used to create standalone applications with HTML
+    GUI. It uses Jinja2 templating engine for generating HTML which can be
+    overridden.
 
     Note: Arguments and Attributes of this class come from the parent class
         :py:class:`htmlPy.BaseGUI`. Please refer to it's documentation for more
@@ -51,11 +51,21 @@ class WebAppGUI(BaseGUI):
             ``app``.
         web_app (PySide.QtWebKit.QWebView): The web view widget which renders
             and displays HTML in the a ``window``.
-        url (unicode property): The URL currently being displayed in
-            ``window``. Set the property to a URL unicode string to change the
-            URL being displayed.
         html (unicode property): The HTML currently rendered in the
-            ``web_app``. This is a readonly property.
+            ``web_app``. The HTML in ``web_app`` can be changed by assigning
+            the new HTML to this property.
+        static_path (str property): The absolute path relative to which the
+            ``staticfile`` filter will create links in templating. Changing
+            this creates a function dynamically which replaces current
+            ``staticfile`` filter in current templating environment.
+        template_path (str property): The absolute path relative to which
+            jinja2 finds the templates to be rendered. Changing this updates
+            the template loader in current templating environment.
+        template (tuple(str, dict) property): The current template being
+            displayed in ``web_app``. First element of the tuple is the
+            path of the template file relative to ``template_path``. The
+            second element of the tuple is the context dictionary in which it
+            is being rendered.
         maximized (bool property): A boolean which describes whether the
             ``window`` is maximized or not. Can be set to ``True`` to maximize
             the window and set to ``False`` to restore.
@@ -88,20 +98,70 @@ class WebAppGUI(BaseGUI):
 
     def __init__(self, *args, **kwargs):
         """ Constructor for :py:class:`htmlPy.WebAppGUI` class """
-        super(WebAppGUI, self).__init__(*args, **kwargs)
+        super(AppGUI, self).__init__(*args, **kwargs)
 
-    url = descriptors.LiveProperty(
+        self.__driver_script_location = os.path.abspath(
+            os.path.dirname(__file__))
+
+        self.__templating_environment = jinja2.Environment()
+        self.static_path = self.__driver_script_location
+        self.template_path = self.__driver_script_location
+
+    html = descriptors.LiveProperty(
         unicode,
-        lambda instance: instance.web_app.url().toString(),
-        lambda instance, link: instance.web_app.setUrl(link))
+        lambda instance: instance.web_app.page().mainFrame().toHtml(),
+        lambda instance, value: instance.web_app.setHtml(value))
+
+    static_path = descriptors.CustomAssignmentProperty(
+        "static_path", str,
+        lambda instance, value: instance._change_static_path(value))
+
+    template_path = descriptors.CustomAssignmentProperty(
+        "template_path", str,
+        lambda instance, value: instance._change_template_path(value))
 
     @property
-    def html(self):
-        """ unicode: The HTML currently rendered in the window.
-
-        This property will return the HTML which is being displayed in the
-        ``web_app``. This is not asynchronous. The URL set with htmlPy will not
-        load until the window is in display.
+    def template(self):
         """
+        tuple(str, dict): The current template being displayed in ``web_app``.
+            First element of the tuple is the path of the template file
+            relative to ``template_path``. The second element of the tuple is
+            the context dictionary in which it is being rendered.
+        """
+        return self.__template
 
-        return self.web_app.page().mainFrame().toHtml()
+    @template.setter
+    def template(self, template_tuple):
+        """ Display the template represented by ``template_tuple``
+
+        This function renders the template represented by ``template_tuple``
+        using jinja2 and sets the result as the HTML of current ``web_app``.
+        """
+        if not isinstance(template_tuple, tuple):
+            raise TypeError("A tuple is required")
+        template_path, context = template_tuple
+        if not isinstance(template_path, str):
+            raise TypeError("Template path should be a string")
+        if not isinstance(context, dict):
+            raise TypeError("Context should be a dictionary")
+
+        template = self.__templating_environment.get_template(template_path)
+        self.html = template.render(**context)
+        self.__template = template_tuple
+
+    def _change_static_path(self, value):
+        """ Changes the static_path for jinja2 filters
+
+        NEVER EVER call this function. It is meant for internal use only.
+        """
+        def staticfile_filter(file_path):
+            return "file:///" + os.path.join(value, file_path)
+
+        self.__templating_environment.filters["staticfile"] = staticfile_filter
+
+    def _change_template_path(self, value):
+        """ Changes the template_path for jinja2 environment
+
+        NEVER EVER call this function. It is meant for internal use only.
+        """
+        self.__templating_enviroment.loader = jinja2.FileSystemLoader(value)

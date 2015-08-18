@@ -12,7 +12,7 @@ class BaseGUI(object):
     GUI classes. Use :py:class:`htmlPy.AppGUI` and
     :py:class:`htmlPy.WebAppGUI` for developing applications.
 
-    Args:
+    Arguments:
         No args: This is an abstract base class. It must not be instantiated.
 
     Attributes:

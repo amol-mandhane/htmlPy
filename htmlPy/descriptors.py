@@ -8,7 +8,7 @@ class IntegralGeometricProperty(object):
     and changes the real value when assigned. The values assigned should be of
     the type ``int``. Attributes defined by this descriptor cannot be deleted.
 
-    Args:
+    Arguments:
         name (str): Name of the method of ``QMainWindow`` which refers to the
             corresponding property. Name should be amongst width, height, x
             and y, though others can be used if compatible.
@@ -78,7 +78,7 @@ class CustomAssignmentProperty(object):
     code has to be executed when setting their values. This descriptor is used
     to define those properties.
 
-    Args:
+    Arguments:
         name (str): Name of the hidden class attribute to store value in
             without the leading "_"
         datatype (type): Type of the value of this property
@@ -151,7 +151,7 @@ class LiveProperty(object):
     The values are retrieved directly from the Qt objects. Thus, they require
     a retrieval and an assignment function.
 
-    Args:
+    Arguments:
         datatype (type): Type of the value of this property
         get_function (function): The function that has to be executed for
             getting the value of this property.
