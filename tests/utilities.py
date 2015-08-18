@@ -11,3 +11,7 @@ def descriptor_check(attribute, value, error):
             raise AssertionError('Descriptor failed')
 
     return checker
+
+
+def html_with_string(s):
+    return "<html><head></head><body>{}</body></html>".format(s)

@@ -103,6 +103,7 @@ class AppGUI(BaseGUI):
         self.__driver_script_location = os.path.abspath(
             os.path.dirname(__file__))
 
+        self.__template = (None, None)
         self.__templating_environment = jinja2.Environment()
         self.static_path = self.__driver_script_location
         self.template_path = self.__driver_script_location
@@ -164,4 +165,4 @@ class AppGUI(BaseGUI):
 
         NEVER EVER call this function. It is meant for internal use only.
         """
-        self.__templating_enviroment.loader = jinja2.FileSystemLoader(value)
+        self.__templating_environment.loader = jinja2.FileSystemLoader(value)

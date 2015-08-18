@@ -1,10 +1,7 @@
 import random
 import string
 from htmlPy import settings
-
-
-def html_with_string(s):
-    return "<html><head></head><body>{}</body></html>".format(s)
+from utilities import html_with_string
 
 
 class BaseGUIJavascript(object):
@@ -31,7 +28,6 @@ class BaseGUIJavascript(object):
 
     def test_right_click_default(self):
         self.app.evaluate_javascript(self.right_click_simulator)
-        print self.app.html
         assert self.app.html == html_with_string("true")
 
     def test_right_click_enabled(self):

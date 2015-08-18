@@ -1,12 +1,11 @@
-import descriptor_check as DC
+from utilities import descriptor_check
 
 
 class BaseGUILiveProperties(object):
 
-    test_title_type = DC.descriptor_check("title", "non-unicode", TypeError)
-    test_developer_mode_type = DC.descriptor_check("developer_mode", 1,
-                                                   TypeError)
-    test_plugins_type = DC.descriptor_check("plugins", 1, TypeError)
+    test_title_type = descriptor_check("title", "non-unicode", TypeError)
+    test_developer_mode_type = descriptor_check("developer_mode", 1, TypeError)
+    test_plugins_type = descriptor_check("plugins", 1, TypeError)
 
     def test_title(self):
         assert self.app.title == u"Test Title"

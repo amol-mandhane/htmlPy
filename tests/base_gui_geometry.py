@@ -1,18 +1,18 @@
-import descriptor_check as DC
+from utilities import descriptor_check
 
 
 class BaseGUIGeometry(object):
 
-    test_width_type = DC.descriptor_check("width", "non-int", TypeError)
-    test_width_positive = DC.descriptor_check("width", -1, ValueError)
-    test_height_type = DC.descriptor_check("height", "non-int", TypeError)
-    test_height_positive = DC.descriptor_check("height", -1, ValueError)
-    test_x_pos_type = DC.descriptor_check("x_pos", "non-int", TypeError)
-    test_x_pos_positive = DC.descriptor_check("x_pos", -1, ValueError)
-    test_y_pos_type = DC.descriptor_check("y_pos", "non-int", TypeError)
-    test_y_pos_positive = DC.descriptor_check("y_pos", -1, ValueError)
+    test_width_type = descriptor_check("width", "non-int", TypeError)
+    test_width_positive = descriptor_check("width", -1, ValueError)
+    test_height_type = descriptor_check("height", "non-int", TypeError)
+    test_height_positive = descriptor_check("height", -1, ValueError)
+    test_x_pos_type = descriptor_check("x_pos", "non-int", TypeError)
+    test_x_pos_positive = descriptor_check("x_pos", -1, ValueError)
+    test_y_pos_type = descriptor_check("y_pos", "non-int", TypeError)
+    test_y_pos_positive = descriptor_check("y_pos", -1, ValueError)
 
-    test_maximized_type = DC.descriptor_check("maximized", 1, TypeError)
+    test_maximized_type = descriptor_check("maximized", 1, TypeError)
 
     def test_default_width(self):
         assert self.app.width == 512

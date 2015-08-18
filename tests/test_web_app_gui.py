@@ -3,7 +3,7 @@ from base_gui_geometry import BaseGUIGeometry
 from base_gui_maximized_geometry import BaseGUIMaximizedGeometry
 from base_gui_live_properties import BaseGUILiveProperties
 from base_gui_javascript import BaseGUIJavascript
-import descriptor_check as DC
+from utilities import descriptor_check
 import htmlPy
 import unittest
 
@@ -17,7 +17,7 @@ class TestWebApp(unittest.TestCase, BaseGUIBasics,
         self.AppClass = htmlPy.WebAppGUI
         self.url = u"http://example.com/"
 
-    test_url_type = DC.descriptor_check("url", "non-unicode", TypeError)
+    test_url_type = descriptor_check("url", "non-unicode", TypeError)
 
     def test_url_setting(self):
         self.app.url = self.url
