@@ -118,9 +118,9 @@ class BaseGUI(object):
     developer_mode = descriptors.LiveProperty(
         bool,
         lambda instance: instance.web_app.settings().testAttribute(
-            QtWebKit.QWebSettings.DeveloperExtrasEnabled),
+            QtWebKit.QWebSettings.WebAttribute.DeveloperExtrasEnabled),
         lambda instance, value: instance.web_app.settings().setAttribute(
-            QtWebKit.QWebSettings.DeveloperExtrasEnabled, value))
+            QtWebKit.QWebSettings.WebAttribute.DeveloperExtrasEnabled, value))
 
     def start(self):
         """ Starts the application.
