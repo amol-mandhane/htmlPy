@@ -1,4 +1,5 @@
 from PySide import QtGui, QtWebKit
+import settings
 import abc
 import sys
 import descriptors
@@ -70,6 +71,9 @@ class BaseGUI(object):
         self.web_app.settings().setAttribute(
             QtWebKit.QWebSettings.LocalContentCanAccessRemoteUrls, True)
 
+        self.__javascript_settings = {}
+        self.web_app.loadFinished.connect(self.__javascript_setting_call)
+
         self._width = width
         self._height = height
         self._x = x_pos
@@ -81,16 +85,6 @@ class BaseGUI(object):
 
         self.maximized = maximized
         self.auto_resize()
-
-    def auto_resize(self):
-        """ Resizes and relocates the ``window`` to previous state
-
-        If the ``window`` is not maximized, this function resizes it to the
-        stored dimensions, moves it to the stored location.
-        """
-        if not self.maximized:
-            self.window.resize(self._width, self._height)
-            self.window.move(self._x, self._y)
 
     width = descriptors.IntegralGeometricProperty("width")
     height = descriptors.IntegralGeometricProperty("height")
@@ -122,6 +116,27 @@ class BaseGUI(object):
         lambda instance, value: instance.web_app.settings().setAttribute(
             QtWebKit.QWebSettings.WebAttribute.DeveloperExtrasEnabled, value))
 
+    def __javascript_setting_call(self):
+        """ Re-evaluate javascript settings
+
+        This function re-evaluates all the javascript settings defined in the
+        dictionary ``__javascript_settings``. This should be connected
+        to the slot ``web_app.loadFinished``.
+        """
+        javascript_string = ";".join(self.__javascript_settings.values())
+        if len(javascript_string) > 0:
+            self.evaluate_javascript(javascript_string)
+
+    def auto_resize(self):
+        """ Resizes and relocates the ``window`` to previous state
+
+        If the ``window`` is not maximized, this function resizes it to the
+        stored dimensions, moves it to the stored location.
+        """
+        if not self.maximized:
+            self.window.resize(self._width, self._height)
+            self.window.move(self._x, self._y)
+
     def start(self):
         """ Starts the application.
 
@@ -150,3 +165,77 @@ class BaseGUI(object):
         :py:meth:`htmlPy.BaseGUI.stop` is connected to some signal.
         """
         self.app.exec_()
+
+    def evaluate_javascript(self, javascript_string):
+        """ Evaluates javascript in web page currently displayed
+
+        Arguments:
+            javascript_string (str): The string of javascript code that has to
+                be evaluated.
+        """
+        self.web_app.page().mainFrame().evaluateJavaScript(javascript_string)
+
+    def right_click_setting(self, value):
+        """ Javascript based setting for right click on the application.
+
+        This function changes the web page's behaviour on right click. Normal
+        behaviour is to open a context menu. Enabling right click exhibits that
+        behaviour. Right click is enabled by default. Disabling right click
+        suppresses context menu for entire page. Enabling right click for
+        only inputs suppresses context menu for all elements excepts inputs and
+        textarea, which is the recommended option. The arguments provided
+        should be from :py:mod:`htmlPy.settings` module as explained further.
+
+        Arguments:
+            value (int): should be either ``htmlPy.settings.ENABLE`` (default)
+                or ``htmlPy.settings.DISABLE`` or
+                ``htmlPy.settings.INPUTS_ONLY`` (recommended)
+
+        """
+        if value == settings.ENABLE:
+            self.evaluate_javascript(settings.RIGHT_CLICK_ENABLE)
+            self.__javascript_settings.pop(settings.RIGHT_CLICK_SETTING_KEY,
+                                           None)
+        elif value == settings.DISABLE:
+            self.evaluate_javascript(settings.RIGHT_CLICK_DISABLE)
+            self.__javascript_settings[settings.RIGHT_CLICK_SETTING_KEY] = \
+                settings.RIGHT_CLICK_DISABLE
+        elif value == settings.INPUTS_ONLY:
+            self.evaluate_javascript(settings.RIGHT_CLICK_INPUTS_ONLY)
+            self.__javascript_settings[settings.RIGHT_CLICK_SETTING_KEY] = \
+                settings.RIGHT_CLICK_INPUTS_ONLY
+        else:
+            raise ValueError("The argument should be either " +
+                             "htmlPy.settings.ENABLE or " +
+                             "htmlPy.settings.DISABLE or " +
+                             "htmlPy.settings.INPUTS_ONLY")
+
+    def text_selection_setting(self, value):
+        """ Javascript based setting for text selection in the application.
+
+        This function changes the web page's behaviour on selection of text.
+        Normal behaviour is to highlight the selected text. Enabling text
+        selection exhibits that behaviour. Text selection is enabled by
+        default. Disabling text selection disallows user to select any text on
+        the page except for inputs and disables the I-beam cursor for text
+        selection. The arguments provided should be from
+        :py:mod:`htmlPy.settings` module as explained further.
+
+        Arguments:
+            value (int): should be either ``htmlPy.settings.ENABLE`` (default)
+                or ``htmlPy.settings.DISABLE`` or
+
+        """
+
+        if value == settings.ENABLE:
+            self.evaluate_javascript(settings.TEXT_SELECTION_ENABLE)
+            self.__javascript_settings.pop(
+                settings.TEXT_SELECTION_SETTING_KEY, None)
+        elif value == settings.DISABLE:
+            self.evaluate_javascript(settings.TEXT_SELECTION_DISABLE)
+            self.__javascript_settings[settings.TEXT_SELECTION_SETTING_KEY]\
+                = settings.TEXT_SELECTION_DISABLE
+        else:
+            raise ValueError("The argument should be either " +
+                             "htmlPy.settings.ENABLE or " +
+                             "htmlPy.settings.DISABLE")

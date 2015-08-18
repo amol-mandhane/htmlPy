@@ -2,6 +2,7 @@ from base_gui_basics import BaseGUIBasics
 from base_gui_geometry import BaseGUIGeometry
 from base_gui_maximized_geometry import BaseGUIMaximizedGeometry
 from base_gui_live_properties import BaseGUILiveProperties
+from base_gui_javascript import BaseGUIJavascript
 import descriptor_check as DC
 import htmlPy
 import unittest
@@ -27,6 +28,16 @@ class TestWebApp(unittest.TestCase, BaseGUIBasics,
         self.app.url = self.url
         self.app.execute()
         assert u"Example Domain" in self.app.html
+
+
+class TestWebAppJavascript(unittest.TestCase, BaseGUIJavascript):
+
+    def setUp(self):
+        self.app = htmlPy.WebAppGUI(allow_overwrite=True)
+        self.url = u"http://example.com/"
+        self.app.web_app.loadFinished.connect(self.app.stop)
+        self.app.url = self.url
+        self.app.execute()
 
 
 class TestWebAppMaximizedGeometry(unittest.TestCase, BaseGUIMaximizedGeometry):
