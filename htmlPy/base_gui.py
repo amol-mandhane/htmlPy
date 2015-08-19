@@ -85,7 +85,7 @@ class BaseGUI(object):
         self.web_app.settings().setAttribute(
             QtWebKit.QWebSettings.LocalContentCanAccessRemoteUrls, True)
 
-        self.__javascript_settings = {}
+        self._javascript_settings = {}
         self.web_app.loadFinished.connect(self.__javascript_setting_call)
 
         self._width = width
@@ -134,10 +134,10 @@ class BaseGUI(object):
         """ Re-evaluate javascript settings
 
         This function re-evaluates all the javascript settings defined in the
-        dictionary ``__javascript_settings``. This should be connected
+        dictionary ``_javascript_settings``. This should be connected
         to the slot ``web_app.loadFinished``.
         """
-        javascript_string = ";".join(self.__javascript_settings.values())
+        javascript_string = ";".join(self._javascript_settings.values())
         if len(javascript_string) > 0:
             self.evaluate_javascript(javascript_string)
 
@@ -208,14 +208,14 @@ class BaseGUI(object):
         """
         if value == settings.ENABLE:
             self.evaluate_javascript(RIGHT_CLICK_ENABLE)
-            self.__javascript_settings.pop(RIGHT_CLICK_SETTING_KEY, None)
+            self._javascript_settings.pop(RIGHT_CLICK_SETTING_KEY, None)
         elif value == settings.DISABLE:
             self.evaluate_javascript(RIGHT_CLICK_DISABLE)
-            self.__javascript_settings[RIGHT_CLICK_SETTING_KEY] = \
+            self._javascript_settings[RIGHT_CLICK_SETTING_KEY] = \
                 RIGHT_CLICK_DISABLE
         elif value == settings.INPUTS_ONLY:
             self.evaluate_javascript(RIGHT_CLICK_INPUTS_ONLY)
-            self.__javascript_settings[RIGHT_CLICK_SETTING_KEY] = \
+            self._javascript_settings[RIGHT_CLICK_SETTING_KEY] = \
                 RIGHT_CLICK_INPUTS_ONLY
         else:
             raise ValueError("The argument should be either " +
@@ -242,10 +242,10 @@ class BaseGUI(object):
 
         if value == settings.ENABLE:
             self.evaluate_javascript(TEXT_SELECTION_ENABLE)
-            self.__javascript_settings.pop(TEXT_SELECTION_SETTING_KEY, None)
+            self._javascript_settings.pop(TEXT_SELECTION_SETTING_KEY, None)
         elif value == settings.DISABLE:
             self.evaluate_javascript(TEXT_SELECTION_DISABLE)
-            self.__javascript_settings[TEXT_SELECTION_SETTING_KEY] = \
+            self._javascript_settings[TEXT_SELECTION_SETTING_KEY] = \
                 TEXT_SELECTION_DISABLE
         else:
             raise ValueError("The argument should be either " +

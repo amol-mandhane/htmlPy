@@ -11,6 +11,29 @@
              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur egestas metus id diam efficitur rhoncus. Nulla ligula urna, tincidunt suscipit sollicitudin in, tincidunt nec augue. Nullam semper id diam eget varius. Duis mattis sem vitae sem mattis, non blandit quam placerat. Vestibulum viverra nec dui eu luctus. Etiam dapibus mauris ac nibh auctor blandit. Vivamus consequat nibh ipsum. Maecenas maximus ante nec ante mollis gravida. Etiam sed tortor pellentesque, porttitor mauris dapibus, tristique erat.
         </p>
     </div>
+
+    <a href="BindingTest.appname_link_clicked" id="{{ LINK_CLICK_ID }}" data-bind="true">Link Name</a>
+    <br>
+    <a href="BindingTest.appname_link_clicked_with_args" data-params="{{ ARGS_LINK_CLICK_ARGS }}" id="{{ ARGS_LINK_CLICK_ID }}" data-bind="true">Another Link name</a>
+    <a href="BindingTest.non_existent_function" id="{{ LINK_404_ID }}" data-bind="true">False Link</a>
+
+    <form action="BindingTest.appname_form_submit" id="{{ FORM_ID }}" data-bind="true">
+        <input type="text" id="{{ FORM_ID }}_input" name="name">
+        <br>
+        <input type="submit" value="Submit" id="{{ FORM_ID }}_button">
+    </form>
+    <br>
+    <form action="BindingTest.appname_form_submit_with_args" data-params="{{ ARGS_FORM_ARGS }}" id="{{ ARGS_FORM_ID }}" data-bind="true">
+        <input type="text" id="{{ ARGS_FORM_ID }}_input" name="name">
+        <br>
+        <input type="submit" value="Submit" id="{{ ARGS_FORM_ID }}_button">
+    </form>
+    <form action="BindingTest.non_existent_function" id="{{ FORM_404_ID }}" data-bind="true">
+        <input type="text" id="{{ FORM_404_ID }}_input" name="name">
+        <br>
+        <input type="submit" value="Submit" id="{{ FORM_404_ID }}_button">
+    </form>
+
     <script src="{{ 'script.js'|staticfile }}"></script>
 </body>
 </html>

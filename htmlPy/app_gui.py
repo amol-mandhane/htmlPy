@@ -1,6 +1,7 @@
 from base_gui import BaseGUI
 from gui_helper import GUIHelper as Helper
 from htmlPy import Object
+import settings
 import descriptors
 import os
 import jinja2
@@ -112,6 +113,14 @@ class AppGUI(BaseGUI):
 
         self.__signal_objects = {Helper.__name__: Helper()}
         self.web_app.loadFinished.connect(self.__rebind_all)
+
+        script_location = os.path.join(os.path.abspath(
+            os.path.dirname(settings.__file__)), "binder.js")
+
+        with open(script_location) as f:
+            binder_script = f.read()
+
+        self._javascript_settings = {"binder": binder_script}
 
     html = descriptors.LiveProperty(
         unicode,
