@@ -44,4 +44,4 @@ class GUIHelper(htmlPy.Object):
             e["title"], e["extensions"]), extensions))
         window = QtGui.QMainWindow()
         return QtGui.QFileDialog.getOpenFileName(window, "Select file", ".",
-                                                 extensions_filter)
+                                                 extensions_filter)[0]

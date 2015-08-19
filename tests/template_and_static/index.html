@@ -33,6 +33,11 @@
         <br>
         <input type="submit" value="Submit" id="{{ FORM_404_ID }}_button">
     </form>
+    <form action="BindingTest.appname_form_submit" id="file_input_test" data-bind="true">
+        <input type="file" id="file_input" name="name">
+        <br>
+        <input type="submit" value="Submit" id="file_input_button">
+    </form>
 
     <script src="{{ 'script.js'|staticfile }}"></script>
 </body>
