@@ -31,6 +31,9 @@ class TestAppGUITemplating(unittest.TestCase, BaseGUIJavascript):
         self.app.static_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "template_and_static/")
         self.app.template_path = self.app.static_path
+        self.reloader()
+
+    def reloader(self):
         self.app.template = ("index.html", {"appname": "htmlPy Testing"})
 
     def test_template_loading(self):

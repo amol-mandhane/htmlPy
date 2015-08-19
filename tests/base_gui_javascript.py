@@ -31,6 +31,7 @@ class BaseGUIJavascript(object):
         assert self.app.html == html_with_string("true")
 
     def test_right_click_enabled(self):
+        self.app.right_click_setting(settings.DISABLE)
         self.app.right_click_setting(settings.ENABLE)
         self.test_right_click_default()
 
@@ -46,6 +47,40 @@ class BaseGUIJavascript(object):
 
     def test_right_click_input_only_input(self):
         self.app.right_click_setting(settings.INPUTS_ONLY)
+        self.app.evaluate_javascript("document.body.appendChild(" +
+                                     "document.createElement('input'));")
+        self.app.evaluate_javascript(self.right_click_simulator.replace(
+            "div", "input"))
+        assert self.app.html == html_with_string("true")
+
+    def test_right_click_enabled_persistent(self):
+        self.test_right_click_enabled()
+        self.reloader()
+        self.test_right_click_default()
+
+    def test_right_click_disabled_persistent(self):
+        self.test_right_click_disabled()
+        self.reloader()
+        try:
+            self.test_right_click_default()
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError("Right click persistent disabling failed.")
+
+    def test_right_click_input_only_non_input_persistent(self):
+        self.test_right_click_input_only_non_input()
+        self.reloader()
+        try:
+            self.test_right_click_default()
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError("Right click persistent disabling failed.")
+
+    def test_right_click_input_only_input_persistent(self):
+        self.test_right_click_input_only_input()
+        self.reloader()
         self.app.evaluate_javascript("document.body.appendChild(" +
                                      "document.createElement('input'));")
         self.app.evaluate_javascript(self.right_click_simulator.replace(

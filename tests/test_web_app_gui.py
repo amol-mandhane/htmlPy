@@ -34,6 +34,9 @@ class TestWebAppJavascript(unittest.TestCase, BaseGUIJavascript):
 
     def setUp(self):
         self.app = htmlPy.WebAppGUI(allow_overwrite=True)
+        self.reloader()
+
+    def reloader(self):
         self.url = u"http://example.com/"
         self.app.web_app.loadFinished.connect(self.app.stop)
         self.app.url = self.url
