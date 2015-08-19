@@ -4,6 +4,20 @@ import abc
 import sys
 import descriptors
 
+RIGHT_CLICK_SETTING_KEY = "RIGHT_CLICK"
+RIGHT_CLICK_ENABLE = "document.oncontextmenu = null;"
+RIGHT_CLICK_DISABLE = "document.oncontextmenu = function(e) { return false; };"
+RIGHT_CLICK_INPUTS_ONLY = "document.oncontextmenu = function(e) {" + \
+    "return e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA'};"
+
+TEXT_SELECTION_SETTING_KEY = "TEXT_SELECTION"
+TEXT_SELECTION_ENABLE = "document.onselectstart = null;" + \
+    "document.body.style.webkitUserSelect = '';" + \
+    "document.body.style.cursor = '';"
+TEXT_SELECTION_DISABLE = "document.onselectstart = function(e) " + \
+    "{ return false; }; document.body.style.webkitUserSelect = 'none';" + \
+    "document.body.style.cursor = 'default';"
+
 
 class BaseGUI(object):
     """ Abstract GUI class for creating apps using PySide's Qt and HTML.
@@ -193,17 +207,16 @@ class BaseGUI(object):
 
         """
         if value == settings.ENABLE:
-            self.evaluate_javascript(settings.RIGHT_CLICK_ENABLE)
-            self.__javascript_settings.pop(settings.RIGHT_CLICK_SETTING_KEY,
-                                           None)
+            self.evaluate_javascript(RIGHT_CLICK_ENABLE)
+            self.__javascript_settings.pop(RIGHT_CLICK_SETTING_KEY, None)
         elif value == settings.DISABLE:
-            self.evaluate_javascript(settings.RIGHT_CLICK_DISABLE)
-            self.__javascript_settings[settings.RIGHT_CLICK_SETTING_KEY] = \
-                settings.RIGHT_CLICK_DISABLE
+            self.evaluate_javascript(RIGHT_CLICK_DISABLE)
+            self.__javascript_settings[RIGHT_CLICK_SETTING_KEY] = \
+                RIGHT_CLICK_DISABLE
         elif value == settings.INPUTS_ONLY:
-            self.evaluate_javascript(settings.RIGHT_CLICK_INPUTS_ONLY)
-            self.__javascript_settings[settings.RIGHT_CLICK_SETTING_KEY] = \
-                settings.RIGHT_CLICK_INPUTS_ONLY
+            self.evaluate_javascript(RIGHT_CLICK_INPUTS_ONLY)
+            self.__javascript_settings[RIGHT_CLICK_SETTING_KEY] = \
+                RIGHT_CLICK_INPUTS_ONLY
         else:
             raise ValueError("The argument should be either " +
                              "htmlPy.settings.ENABLE or " +
@@ -228,13 +241,12 @@ class BaseGUI(object):
         """
 
         if value == settings.ENABLE:
-            self.evaluate_javascript(settings.TEXT_SELECTION_ENABLE)
-            self.__javascript_settings.pop(
-                settings.TEXT_SELECTION_SETTING_KEY, None)
+            self.evaluate_javascript(TEXT_SELECTION_ENABLE)
+            self.__javascript_settings.pop(TEXT_SELECTION_SETTING_KEY, None)
         elif value == settings.DISABLE:
-            self.evaluate_javascript(settings.TEXT_SELECTION_DISABLE)
-            self.__javascript_settings[settings.TEXT_SELECTION_SETTING_KEY]\
-                = settings.TEXT_SELECTION_DISABLE
+            self.evaluate_javascript(TEXT_SELECTION_DISABLE)
+            self.__javascript_settings[TEXT_SELECTION_SETTING_KEY] = \
+                TEXT_SELECTION_DISABLE
         else:
             raise ValueError("The argument should be either " +
                              "htmlPy.settings.ENABLE or " +

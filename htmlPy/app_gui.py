@@ -1,4 +1,6 @@
 from base_gui import BaseGUI
+from gui_helper import GUIHelper as Helper
+from htmlPy import Object
 import descriptors
 import os
 import jinja2
@@ -108,6 +110,9 @@ class AppGUI(BaseGUI):
         self.static_path = self.__driver_script_location
         self.template_path = self.__driver_script_location
 
+        self.__signal_objects = {Helper.__name__: Helper()}
+        self.web_app.loadFinished.connect(self.__rebind_all)
+
     html = descriptors.LiveProperty(
         unicode,
         lambda instance: instance.web_app.page().mainFrame().toHtml(),
@@ -166,3 +171,50 @@ class AppGUI(BaseGUI):
         NEVER EVER call this function. It is meant for internal use only.
         """
         self.__templating_environment.loader = jinja2.FileSystemLoader(value)
+
+    def bind(self, signal_object, variable_name=None):
+        """ Binds an object to be called from GUI javascript.
+
+        This function binds an object to the javascript window of the page. The
+        ``signal_object`` should be inherited from :py:class:`htmlPy.Object`.
+        The methods that should be callable from javascript should be decorated
+        with :py:decorated:`htmlPy.Slot`. A variable name can be supplied which
+        will be the name of the variable in javascript corresponding to that
+        object. Otherwise, name of the class of that object will be used as the
+        variable name
+
+        Arguments:
+            signal_object (htmlPy.Object): The object that has to be bound to
+                GUI javascript.
+
+        Keyword Arguments:
+            variable_name (str): The name of the javascript variable the object
+                should be attached to. Defaults to None. If None,
+                ``signal_object.__class__.__name__`` is used.
+
+        Raises:
+            TypeError: If ``signal_object`` is not of type
+                :py:class:`htmlPy.Object`.
+            NameError: If ``variable_name`` is "GUIHelper" or name of the class
+                of ``signal_object`` is "GUIHelper"
+
+        """
+        if not isinstance(signal_object, Object):
+            raise TypeError("The object must be of type htmlPy.Object.")
+        name = signal_object.__class__.__name__ if variable_name is None else \
+            variable_name
+        if name == Helper.__class__.__name__:
+            raise NameError("{} is htmlPy reserved name".format(name))
+        self.web_app.page().mainFrame().addToJavaScriptWindowObject(
+            name, signal_object)
+        self.__signal_objects[name] = signal_object
+
+    def __rebind_all(self):
+        """ Rebinds all the objects previously binded.
+
+            Rebinds all the objects stored in the dictionary
+            ``self.__signal_objects`` with the dictionary keys as names.
+        """
+        for name, signal_object in self.__signal_objects.iteritems():
+            self.web_app.page().mainFrame().addToJavaScriptWindowObject(
+                name, signal_object)
