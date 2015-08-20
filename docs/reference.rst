@@ -45,7 +45,6 @@ Decorator :py:class:`htmlPy.Slot`
     :keyword type result: Data type of return value of the method being decorated
 
     Example:
-
         .. code-block:: python
 
             import htmlPy

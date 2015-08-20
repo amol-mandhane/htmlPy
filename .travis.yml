@@ -1,0 +1,32 @@
+sudo: required
+
+language: python
+
+python:
+  - "2.7"
+
+# command to install dependencies
+
+addons:
+  apt:
+    packages:
+    - python-pyside
+    - qt4-dev-tools
+
+# command to install dependencies
+install:
+#  - pip install .
+  - pip install -r requirements.txt
+  - sudo apt-get install python-pyside
+
+# command to run tests
+script: nosetests -a '!no-coverage'
+virtualenv:
+  system_site_packages: true
+
+before_script:
+  - export DISPLAY=:99.0
+  - Xvfb $DISPLAY -screen 0 1024x768x24 -ac +extension GLX +extension RANDR +render -noreset >& /tmp/Xvfb.log &
+
+notifications:
+  email: false

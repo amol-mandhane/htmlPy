@@ -4,6 +4,7 @@ import os
 import random
 import string
 import json
+from nose.plugins.attrib import attr
 
 
 def random_string():
@@ -27,6 +28,7 @@ RANDOM_PARAMS = {
 
 
 class BindingTest(htmlPy.Object):
+
     def __init__(self, app):
         super(BindingTest, self).__init__()
         self.app = app
@@ -91,10 +93,14 @@ class TestAppGUIBinding(unittest.TestCase):
         self.app.evaluate_javascript(
             "document.getElementById('{}_button').click()".format(form_id))
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_binding_activation(self):
         assert self.frame.documentElement().findFirst(
             "body").hasClass("htmlPy-active")
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_binding_persistence(self):
         self.test_binding_activation()
         self.html = "<html><head></head><body></body></html>"
@@ -119,6 +125,8 @@ class TestAppGUIBinding(unittest.TestCase):
         self.app.evaluate_javascript("BindingTest.non_existent_function()")
         assert self.app.html == html
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_link_click(self):
         assert RANDOM_PARAMS["LINK_CLICK_STRING"] not in self.app.html
         self.app.evaluate_javascript(
@@ -126,6 +134,8 @@ class TestAppGUIBinding(unittest.TestCase):
                 RANDOM_PARAMS["LINK_CLICK_ID"]))
         assert RANDOM_PARAMS["LINK_CLICK_STRING"] in self.app.html
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_link_click_with_args(self):
         assert RANDOM_PARAMS["ARGS_LINK_CLICK_ARGS"] * 2 not in self.app.html
         self.app.evaluate_javascript(
@@ -133,6 +143,8 @@ class TestAppGUIBinding(unittest.TestCase):
                 RANDOM_PARAMS["ARGS_LINK_CLICK_ID"]))
         assert RANDOM_PARAMS["ARGS_LINK_CLICK_ARGS"] * 2 in self.app.html
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_link_click_dynamic(self):
         assert RANDOM_PARAMS["LINK_CLICK_STRING"] not in self.app.html
         self.app.evaluate_javascript("""
@@ -155,11 +167,15 @@ class TestAppGUIBinding(unittest.TestCase):
                 RANDOM_PARAMS["LINK_404_ID"]))
         assert self.app.html == html
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_form_submit(self):
         assert RANDOM_PARAMS["FORM_INPUT_VALUE"] not in self.app.html
         self.form_submitter(RANDOM_PARAMS["FORM_ID"])
         assert RANDOM_PARAMS["FORM_INPUT_VALUE"] in self.app.html
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_form_submit_with_args(self):
         check = RANDOM_PARAMS["FORM_INPUT_VALUE"] + \
             RANDOM_PARAMS["ARGS_FORM_ARGS"]
@@ -167,6 +183,8 @@ class TestAppGUIBinding(unittest.TestCase):
         self.form_submitter(RANDOM_PARAMS["ARGS_FORM_ID"])
         assert check in self.app.html
 
+    # Disabling GUI interaction for travis tests until travis
+    @attr("no-coverage")
     def test_form_submit_dynamic(self):
         assert RANDOM_PARAMS["FORM_INPUT_VALUE"] not in self.app.html
         form_html = """
