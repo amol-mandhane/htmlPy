@@ -15,7 +15,7 @@ addons:
 
 # command to install dependencies
 install:
-#  - pip install .
+  - pip install .
   - pip install -r requirements.txt
   - sudo apt-get install python-pyside
 
