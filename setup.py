@@ -8,7 +8,7 @@ if "win" in sys.platform:
 
 setup(
     name='htmlPy',
-    version='2.0.0',
+    version='2.0.1',
     author='Amol Mandhane',
     author_email='amol.mandhane@gmail.com',
     packages=['htmlPy'],
@@ -20,4 +20,5 @@ setup(
     "standalone applications.",
     long_description=open('README.md').read(),
     requires=requirements,
+    py_modules=['htmlPy'],
 )

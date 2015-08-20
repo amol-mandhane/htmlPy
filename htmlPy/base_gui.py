@@ -1,8 +1,8 @@
 from PySide import QtGui, QtWebKit
-import settings
+from . import settings, descriptors, unicode
 import abc
 import sys
-import descriptors
+
 
 RIGHT_CLICK_SETTING_KEY = "RIGHT_CLICK"
 RIGHT_CLICK_ENABLE = "document.oncontextmenu = null;"

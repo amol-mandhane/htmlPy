@@ -1,8 +1,8 @@
-from base_gui_basics import BaseGUIBasics
-from base_gui_geometry import BaseGUIGeometry
-from base_gui_maximized_geometry import BaseGUIMaximizedGeometry
-from base_gui_live_properties import BaseGUILiveProperties
-from base_gui_javascript import BaseGUIJavascript
+from .base_gui_basics import BaseGUIBasics
+from .base_gui_geometry import BaseGUIGeometry
+from .base_gui_maximized_geometry import BaseGUIMaximizedGeometry
+from .base_gui_live_properties import BaseGUILiveProperties
+from .base_gui_javascript import BaseGUIJavascript
 import htmlPy
 import unittest
 import os
@@ -19,7 +19,7 @@ class TestApp(unittest.TestCase, BaseGUIBasics,
     def test_html(self):
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                   "template_and_static/index.html")) as f:
-            html = unicode(f.read())
+            html = htmlPy.unicode(f.read())
         self.app.html = html
         assert "Template Testing" in self.app.html
 

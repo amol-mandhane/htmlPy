@@ -1,8 +1,6 @@
-from base_gui import BaseGUI
-from gui_helper import GUIHelper as Helper
-from htmlPy import Object
-import settings
-import descriptors
+from .base_gui import BaseGUI
+from .gui_helper import GUIHelper as Helper
+from . import Object, unicode, settings, descriptors
 import os
 import jinja2
 
@@ -225,6 +223,6 @@ class AppGUI(BaseGUI):
             Rebinds all the objects stored in the dictionary
             ``self.__signal_objects`` with the dictionary keys as names.
         """
-        for name, signal_object in self.__signal_objects.iteritems():
+        for name, signal_object in self.__signal_objects.items():
             self.web_app.page().mainFrame().addToJavaScriptWindowObject(
                 name, signal_object)

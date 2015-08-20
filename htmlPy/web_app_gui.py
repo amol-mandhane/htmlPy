@@ -1,5 +1,5 @@
-from base_gui import BaseGUI
-import descriptors
+from .base_gui import BaseGUI
+from . import descriptors, unicode
 
 
 class WebAppGUI(BaseGUI):

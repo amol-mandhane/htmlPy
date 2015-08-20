@@ -6,6 +6,12 @@ requirements.txt
 setup.py
 docs/conf.py
 docs/requirements.txt
+docs/_build/html/_sources/important.txt
+docs/_build/html/_sources/index.txt
+docs/_build/html/_sources/installation.txt
+docs/_build/html/_sources/quickstart.txt
+docs/_build/html/_sources/reference.txt
+docs/_build/html/_sources/tutorials.txt
 docs/codes/driver.py
 docs/codes/gui_to_python.py
 docs/codes/python_to_gui.py

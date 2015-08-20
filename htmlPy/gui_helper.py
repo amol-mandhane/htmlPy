@@ -20,7 +20,7 @@ class GUIHelper(htmlPy.Object):
         Arguments:
             string (str): The string to be printed.
         """
-        print string
+        print(string)
 
     @htmlPy.Slot(str, result=str)
     def file_dialog(self, filters="[]"):

@@ -10,7 +10,6 @@ python:
 addons:
   apt:
     packages:
-    - python-pyside
     - qt4-dev-tools
 
 # command to install dependencies

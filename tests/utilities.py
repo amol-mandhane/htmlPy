@@ -5,7 +5,7 @@ def descriptor_check(attribute, value, error):
             setattr(instance, attribute, value)
         except error:
             pass
-        except Exception, e:
+        except Exception as e:
             raise e
         else:
             raise AssertionError('Descriptor failed')

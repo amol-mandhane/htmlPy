@@ -5,7 +5,7 @@ class BaseGUIBasics(object):
             self.AppClass()
         except RuntimeError:
             pass
-        except Exception, e:
+        except Exception as e:
             raise e
         else:
             raise AssertionError("Test failed")

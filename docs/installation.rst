@@ -66,6 +66,12 @@ htmlPy is dependent on PySide_ which is not included in the dependencies of html
 
     $ sudo apt-get install python-pyside
 
+    or::
+
+    $ sudo apt-get install python3-pyside
+
+    depending on the python version.
+
     If you are installing in a virtualenv or if you want to build PySide_ from scratch, you can install it with python installers. (This will take quite some time to compile)::
 
     $ [sudo] pip install PySide

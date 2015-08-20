@@ -1,4 +1,4 @@
-from utilities import descriptor_check
+from .utilities import descriptor_check
 
 
 class BaseGUILiveProperties(object):

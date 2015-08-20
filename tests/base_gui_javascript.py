@@ -1,7 +1,7 @@
 import random
 import string
 from htmlPy import settings
-from utilities import html_with_string
+from .utilities import html_with_string
 
 
 class BaseGUIJavascript(object):
