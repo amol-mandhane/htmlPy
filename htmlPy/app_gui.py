@@ -14,8 +14,9 @@ class AppGUI(BaseGUI):
     GUI. It uses Jinja2 templating engine for generating HTML which can be
     overridden.
 
-    Note: Arguments and Attributes of this class come from the parent class
-        :py:class:`htmlPy.BaseGUI`. Please refer to it's documentation for more
+    Note:
+        Arguments and Attributes of this class come from the parent class
+        :py:class:`htmlPy.BaseGUI`. Please refer to its documentation for more
         details.
 
     Keyword arguments:
@@ -24,13 +25,13 @@ class AppGUI(BaseGUI):
         width (Optional[int]): Width of the ``window`` in pixels. Defaults to
             800 px. Redundant if ``maximized`` is ``True``.
         height (Optional[int]): Height of the ``window`` in pixels. Defaults to
-            600 px. Redundant if ``maximized is ``True``.
+            600 px. Redundant if ``maximized`` is ``True``.
         x_pos (Optional[int]): The X-coordinate for top-left corner of the
             ``window`` in pixels. Defaults to 10 px. Redundant if
-            ``maximized is ``True``.
+            ``maximized`` is ``True``.
         y_pos (Optional[int]): The Y-coordinate for top-left corner of the
             ``window`` in pixels. Defaults to 10 px. Redundant if
-            ``maximized is ``True``.
+            ``maximized`` is ``True``.
         maximized (Optional[bool]): ``window`` is maximized when set to
             ``True``. Defaults to ``False``.
         plugins (Optional[bool]): Enables plugins like flash when set as
@@ -187,7 +188,7 @@ class AppGUI(BaseGUI):
         This function binds an object to the javascript window of the page. The
         ``signal_object`` should be inherited from :py:class:`htmlPy.Object`.
         The methods that should be callable from javascript should be decorated
-        with :py:decorated:`htmlPy.Slot`. A variable name can be supplied which
+        with :py:class:`htmlPy.Slot`. A variable name can be supplied which
         will be the name of the variable in javascript corresponding to that
         object. Otherwise, name of the class of that object will be used as the
         variable name

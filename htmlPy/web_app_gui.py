@@ -11,8 +11,9 @@ class WebAppGUI(BaseGUI):
     existing websites. However, for a standalone application, it is recommended
     to used :py:class:`htmlPy.AppGUI` class.
 
-    Note: Arguments and Attributes of this class come from the parent class
-        :py:class:`htmlPy.BaseGUI`. Please refer to it's documentation for more
+    Note:
+        Arguments and Attributes of this class come from the parent class
+        :py:class:`htmlPy.BaseGUI`. Please refer to its documentation for more
         details.
 
     Keyword arguments:
@@ -21,13 +22,13 @@ class WebAppGUI(BaseGUI):
         width (Optional[int]): Width of the ``window`` in pixels. Defaults to
             800 px. Redundant if ``maximized`` is ``True``.
         height (Optional[int]): Height of the ``window`` in pixels. Defaults to
-            600 px. Redundant if ``maximized is ``True``.
+            600 px. Redundant if ``maximized`` is ``True``.
         x_pos (Optional[int]): The X-coordinate for top-left corner of the
             ``window`` in pixels. Defaults to 10 px. Redundant if
-            ``maximized is ``True``.
+            ``maximized`` is ``True``.
         y_pos (Optional[int]): The Y-coordinate for top-left corner of the
             ``window`` in pixels. Defaults to 10 px. Redundant if
-            ``maximized is ``True``.
+            ``maximized`` is ``True``.
         maximized (Optional[bool]): ``window`` is maximized when set to
             ``True``. Defaults to ``False``.
         plugins (Optional[bool]): Enables plugins like flash when set as

@@ -1,0 +1,20 @@
+<a href="ClassName.function_name" id="link" data-bind="true">GUI clickable link</a>
+<!-- The "a" tag needs to have unique ID and data-bind attribute set to "true"
+The ClassName and function_name have to be set in href attribute as displayed above.
+The "a" tag can be styled using CSS with other HTML elements inside it -->
+
+
+<form action="ClassName.form_function_name" id="form" data-bind="true">
+    <input type="text" id="form_input" name="name">
+    <input type="submit" value="Submit" id="form_submit">
+</form>
+<!-- The "form" tag needs to have unique ID and data-bind attribute set to "true".
+The ClassName and form_function_name have to be set in action attribute as
+displayed above. The argument given to ClassName.form_function_name on form submit
+will be a json string of the form data. -->
+
+<script>
+ClassName.javascript_function();
+// You can treat the class inherited from htmlPy.Object (in this case, ClassName)
+// as a javascript object.
+</script>
