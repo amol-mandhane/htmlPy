@@ -32,7 +32,16 @@ extensions = [
     'sphinx.ext.autodoc', 'sphinxcontrib.napoleon'
 ]
 
-autodoc_mock_imports = ["PySide", "PySide.QtCore", "PySide.QtGui"]
+from mock import Mock as MagicMock
+
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return Mock()
+
+MOCK_MODULES = ['PySide', 'PySide.QtCore', 'PySide.QtGui']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
