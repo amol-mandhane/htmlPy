@@ -16,5 +16,60 @@
 <h2>Documentation</h2>
 <p>The documentation is hosted at <a href="http://htmlpy.readthedocs.org/">http://htmlpy.readthedocs.org/</a>. It contains <b>installation instructions, tutorials, reference guide</b>, compatibility details, and more.</p>
 
+<h2>Example</h2>
+<table style="width: 150%; margin-left: -25%;">
+    <tr>
+        <td>
+        <h3>Back-end <br> <small class="typewriter">back_end.py</small></h3>
+        <pre>
+            <code class="language-python">
+import htmlPy
+from main import app
+
+
+class BackEnd(htmlPy.Object):
+
+@htmlPy.Slot()
+def say_hello_world():
+app.html = u"Hello, world"
+            </code>
+        </pre></td>
+        <td>
+        <h3>GUI <br> <small class="typewriter">main.py</small></h3>
+        <pre>
+            <code class="language-python">
+import htmlPy
+from back_end import BackEnd
+
+app = htmlPy.AppGUI(
+title=u"Sample application")
+app.maximized = True
+app.bind(BackEnd())
+
+app.template = ("index.html", {})
+
+if __name__ == "__main__":
+app.start()
+            </code>
+        </pre></td>
+        <td>
+        <h3>Front-end <br> <small class="typewriter">index.html</small></h3>
+        <pre>
+            <code class="language-markup highlight">
+&lt;html&gt;
+  &lt;body&gt;
+&lt;a
+href="BackEnd.say_hello_world"
+data-bind="true"&gt;
+  Click to say "Hello, world"
+&lt;/a&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+            </code>
+        </pre></td>
+    </tr>
+</table>
+
 <h2>Code</h2>
 <p>htmlPy source code is hosted on <a href="https://github.com/amol-mandhane/htmlPy" target="_blank">GitHub</a>, tested on <a href="https://travis-ci.org/amol-mandhane/htmlPy" target="_blank">Travis CI</a> and released on <a href="https://pypi.python.org/pypi/htmlPy/" target="_blank">PyPI</a>.</p>
+</div>
