@@ -1,3 +1,4 @@
-v2.0.0, 20th Aug 2014 -- Switch from PyQt4 to PySide with improved API
-v2.0.1, 20th Aug 2014 -- Add compatibility for Python3
-v2.0.2, 21st Aug 2014 -- Add additional files to distutils script
+v2.0.0, 20th Aug 2015 -- Switch from PyQt4 to PySide with improved API
+v2.0.1, 20th Aug 2015 -- Add compatibility for Python3
+v2.0.2, 21st Aug 2015 -- Add additional files to distutils script
+v2.0.3, 22nd Nov 2015 -- Switch to setuptools

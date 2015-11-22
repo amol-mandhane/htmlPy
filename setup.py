@@ -8,7 +8,7 @@ if "win" in sys.platform:
 
 setup(
     name='htmlPy',
-    version='2.0.2',
+    version='2.0.3',
     author='Amol Mandhane',
     author_email='amol.mandhane@gmail.com',
     packages=['htmlPy'],
