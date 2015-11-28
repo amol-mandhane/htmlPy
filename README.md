@@ -24,26 +24,29 @@
         <pre>
             <code class="language-python">
 import htmlPy
-from main import app
 
 
 class BackEnd(htmlPy.Object):
 
-@htmlPy.Slot()
-def say_hello_world():
-app.html = u"Hello, world"
-            </code>
-        </pre></td>
+    @htmlPy.Slot()
+    def say_hello_world():
+        from main import app
+        app.html = u"Hello, world"
+                    </code>
+
+                </pre>
+        </td>
         <td>
         <h3>GUI <br> <small class="typewriter">main.py</small></h3>
-        <pre>
-            <code class="language-python">
+            <pre>
+                <code class="language-python">
 import htmlPy
 from back_end import BackEnd
 
 app = htmlPy.AppGUI(
-title=u"Sample application")
+    title=u"Sample application")
 app.maximized = True
+app.template_path = "."
 app.bind(BackEnd())
 
 app.template = ("index.html", {})
