@@ -28,10 +28,13 @@ import htmlPy
 
 class BackEnd(htmlPy.Object):
 
+    def __init__(self, app):
+        super(BackEnd, self).__init__()
+        self.app = app
+
     @htmlPy.Slot()
     def say_hello_world(self):
-        from main import app
-        app.html = u"Hello, world"
+        self.app.html = u"Hello, world"
                     </code>
 
                 </pre>
@@ -47,7 +50,7 @@ app = htmlPy.AppGUI(
     title=u"Sample application")
 app.maximized = True
 app.template_path = "."
-app.bind(BackEnd())
+app.bind(BackEnd(app))
 
 app.template = ("index.html", {})
 
